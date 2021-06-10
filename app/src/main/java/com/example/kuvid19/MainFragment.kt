@@ -1,18 +1,32 @@
 package com.example.kuvid19
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.core.view.setPadding
+import androidx.fragment.app.Fragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import javax.xml.parsers.DocumentBuilderFactory
 
-
-public class MainActivity : AppCompatActivity() {
-    lateinit var context : Context
-
-    /*
+class MainFragment :  Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     var now = LocalDate.now()
     val scope = CoroutineScope(Dispatchers.IO)
@@ -21,25 +35,24 @@ public class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     val date = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-    */
 
-    @SuppressLint("ResourceAsColor", "NewApi", "WrongConstant")
+    @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.N)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //init()
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View?
+    {
+        val rootView = inflater.inflate(R.layout.activity_main_fragment, container, false)
+        init()
+        printAreaData(rootView as ViewGroup)
 
-        // 프래그먼트 달기
-        val adapter = MainAdapter(supportFragmentManager)
-        adapter.addFragment(MainFragment(), "지역")
-        adapter.addFragment(SecondFragment(), "연령-성별")
-        //adapter.addFragment(, "지도")
+        return rootView
+    }
 
-        viewPaper.adapter = adapter
-        viewPaperTabLayout.setupWithViewPager(viewPaper)
-
-        /*
+    @SuppressLint("WrongConstant")
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    fun printAreaData(rootView:ViewGroup ) {
         //##### MyDataList : area data
         // 데이터 받으려고 기달
         do {
@@ -60,16 +73,18 @@ public class MainActivity : AppCompatActivity() {
         var idx = 0
 
         val MyDataList_it = MyDataList.iterator()
+        val MyData1Table:TableLayout = rootView.findViewById(R.id.MyData1Table)
+
         while(MyDataList_it.hasNext()) {
             val data: MyData = MyDataList_it.next()
 
             // 동적 행 추가
-            val tableRow = TableRow(this)
+            val tableRow = TableRow(context)
             //tableRow.layoutParams = MyDataRow.layoutParams
             tableRow.layoutParams = ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
 
             // 열 레이아웃 설정
-            val gubun = TextView(this)
+            val gubun = TextView(context)
             if(outIdx == idx || sumIdx-1 == idx) gubun.setBackgroundResource(R.drawable.border_layout_es)
             else gubun.setBackgroundResource(R.drawable.border_layout)
 
@@ -82,7 +97,7 @@ public class MainActivity : AppCompatActivity() {
             tableRow.addView(gubun)
 
 
-            val def_cnt = TextView(this)
+            val def_cnt = TextView(context)
             if(outIdx == idx || sumIdx-1 == idx) def_cnt.setBackgroundResource(R.drawable.border_layout_es)
             else def_cnt.setBackgroundResource(R.drawable.border_layout)
 
@@ -95,7 +110,7 @@ public class MainActivity : AppCompatActivity() {
             tableRow.addView(def_cnt)
 
 
-            val iso_ing_cnt = TextView(this)
+            val iso_ing_cnt = TextView(context)
             if(outIdx == idx || sumIdx-1 == idx) iso_ing_cnt.setBackgroundResource(R.drawable.border_layout_es)
             else iso_ing_cnt.setBackgroundResource(R.drawable.border_layout)
 
@@ -108,7 +123,7 @@ public class MainActivity : AppCompatActivity() {
             tableRow.addView(iso_ing_cnt)
 
 
-            val death_cnt = TextView(this)
+            val death_cnt = TextView(context)
             if(outIdx == idx || sumIdx-1 == idx) death_cnt.setBackgroundResource(R.drawable.border_layout_es)
             else death_cnt.setBackgroundResource(R.drawable.border_layout)
 
@@ -121,7 +136,7 @@ public class MainActivity : AppCompatActivity() {
             tableRow.addView(death_cnt)
 
 
-            val iso_clear_cnt = TextView(this)
+            val iso_clear_cnt = TextView(context)
             if(outIdx == idx || sumIdx-1 == idx) iso_clear_cnt.setBackgroundResource(R.drawable.border_layout_es)
             else iso_clear_cnt.setBackgroundResource(R.drawable.border_layout)
 
@@ -135,7 +150,7 @@ public class MainActivity : AppCompatActivity() {
 
 
 
-            val inc_dec = TextView(this)
+            val inc_dec = TextView(context)
             if(outIdx == idx || sumIdx-1 == idx) inc_dec.setBackgroundResource(R.drawable.border_layout_es)
             else inc_dec.setBackgroundResource(R.drawable.border_layout)
 
@@ -150,19 +165,14 @@ public class MainActivity : AppCompatActivity() {
             MyData1Table.addView(tableRow)
             idx++
         }
-
-         */
-
     }
 
-/*
     @RequiresApi(Build.VERSION_CODES.N)
     fun init() {
-
         scope.launch {
             //URLDecoder.decode(key, "UTF-8")
             val area_url = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=" +
-                    key_area + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}}"
+                    key_area + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}"
             val area_xml: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(area_url)
 
             area_xml.documentElement.normalize()
@@ -196,5 +206,4 @@ public class MainActivity : AppCompatActivity() {
             }
         }
     }
-*/
 }

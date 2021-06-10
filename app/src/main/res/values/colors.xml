@@ -8,4 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bgcolor">#204455</color>
+    <color name="infocolor">#ECE8CA</color>
+    <color name="infobgcolor">#455760</color>
+    <color name="strokecolor">#ECE8CA</color>
+    <color name="layout2color">#302E2E</color>
 </resources>
