@@ -30,7 +30,7 @@ class ThirdFragment :  Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     var now = LocalDate.now()
     val scope = CoroutineScope(Dispatchers.IO)
-    val age_sex_key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
+    val sex_key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
     var MyDataList = ArrayList<MyData2>()
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -44,16 +44,16 @@ class ThirdFragment :  Fragment() {
         savedInstanceState: Bundle?
     ): View?
     {
-        val rootView = inflater.inflate(R.layout.activity_second_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.activity_third_fragment, container, false)
         init()
-        printAgeSexData(rootView as ViewGroup)
+        printSexData(rootView as ViewGroup)
 
         return rootView
     }
 
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun printAgeSexData(rootView:ViewGroup) {
+    fun printSexData(rootView:ViewGroup) {
         do {
 
         } while(MyDataList.size < 11)
@@ -68,13 +68,10 @@ class ThirdFragment :  Fragment() {
           */
 
         val endIdx = MyDataList.size // 성별 따로 빼놓을거얌
-        var idx = 0
+        val MyData3Table: TableLayout = rootView.findViewById(R.id.MyData3Table)
 
-        val MyDataList_it = MyDataList.iterator()
-        val MyData2Table: TableLayout = rootView.findViewById(R.id.MyData2Table)
-
-        while (MyDataList_it.hasNext()) {
-            val data: MyData2 = MyDataList_it.next()
+        for(idx in endIdx-1 downTo endIdx-2) {
+            val data: MyData2 = MyDataList.get(idx)
 
             // 동적 행 추가
             val tableRow = TableRow(context)
@@ -83,10 +80,10 @@ class ThirdFragment :  Fragment() {
 
             // 열 레이아웃 설정
             val gubun = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) gubun.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else gubun.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
+            if(idx == endIdx-2) gubun.setBackgroundResource(R.drawable.border_layout_es2) // 성별(여성)인 경우
+            else gubun.setBackgroundResource(R.drawable.border_layout_es3) //성별(남성)인 경우
 
-            gubun.setTextColor(Color.parseColor("#302E2E"))
+            gubun.setTextColor(Color.parseColor("#ECE8CA"))
             gubun.setTextSize(15.0F)
             gubun.setPadding(5)
             gubun.textAlignment = 4
@@ -96,10 +93,10 @@ class ThirdFragment :  Fragment() {
 
 
             val conf_case = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) conf_case.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else conf_case.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
+            if(idx == endIdx-2) conf_case.setBackgroundResource(R.drawable.border_layout_es2) // 성별(여성)인 경우
+            else conf_case.setBackgroundResource(R.drawable.border_layout_es3) //성별(남성)인 경우
 
-            conf_case.setTextColor(Color.parseColor("#302E2E"))
+            conf_case.setTextColor(Color.parseColor("#ECE8CA"))
             conf_case.setTextSize(15.0F)
             conf_case.setPadding(5)
             conf_case.textAlignment = 4
@@ -109,10 +106,10 @@ class ThirdFragment :  Fragment() {
 
 
             val conf_case_rate = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) conf_case_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else conf_case_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
+            if(idx == endIdx-2) conf_case_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별(여성)인 경우
+            else conf_case_rate.setBackgroundResource(R.drawable.border_layout_es3) //성별(남성)인 경우
 
-            conf_case_rate.setTextColor(Color.parseColor("#302E2E"))
+            conf_case_rate.setTextColor(Color.parseColor("#ECE8CA"))
             conf_case_rate.setTextSize(15.0F)
             conf_case_rate.setPadding(5)
             conf_case_rate.textAlignment = 4
@@ -122,10 +119,10 @@ class ThirdFragment :  Fragment() {
 
 
             val death = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) death.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else death.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
+            if(idx == endIdx-2) death.setBackgroundResource(R.drawable.border_layout_es2) // 성별(여성)인 경우
+            else death.setBackgroundResource(R.drawable.border_layout_es3) // 성별(남성)인 경우
 
-            death.setTextColor(Color.parseColor("#302E2E"))
+            death.setTextColor(Color.parseColor("#ECE8CA"))
             death.setTextSize(15.0F)
             death.setPadding(5)
             death.textAlignment = 4
@@ -135,10 +132,10 @@ class ThirdFragment :  Fragment() {
 
 
             val death_rate = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) death_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else death_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
+            if(idx == endIdx-2) death_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별(여성)인 경우
+            else death_rate.setBackgroundResource(R.drawable.border_layout_es3) // 성별(남성)인 경우
 
-            death_rate.setTextColor(Color.parseColor("#302E2E"))
+            death_rate.setTextColor(Color.parseColor("#ECE8CA"))
             death_rate.setTextSize(15.0F)
             death_rate.setPadding(5)
             death_rate.textAlignment = 4
@@ -148,10 +145,10 @@ class ThirdFragment :  Fragment() {
 
 
             val critical_rate = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) critical_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else critical_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
+            if(idx == endIdx-2) critical_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별(여성)인 경우
+            else critical_rate.setBackgroundResource(R.drawable.border_layout_es3) //성별(남성)인 경우
 
-            critical_rate.setTextColor(Color.parseColor("#302E2E"))
+            critical_rate.setTextColor(Color.parseColor("#ECE8CA"))
             critical_rate.setTextSize(15.0F)
             critical_rate.setPadding(5)
             critical_rate.textAlignment = 4
@@ -159,8 +156,7 @@ class ThirdFragment :  Fragment() {
             critical_rate.text = data.critical_rate.toString()
             tableRow.addView(critical_rate)
 
-            MyData2Table.addView(tableRow)
-            idx++
+            MyData3Table.addView(tableRow)
         }
     }
 
@@ -172,12 +168,13 @@ class ThirdFragment :  Fragment() {
                      key + "&pageNo=1&numOfRows=10&STD_DAY=${date}}"
             */
             val url = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=" +
-                    age_sex_key + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}"
+                    sex_key + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}"
             val xml: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url)
 
             xml.documentElement.normalize()
             println("Root element : " + xml.documentElement.nodeName)
 
+            MyDataList.clear()
             //찾고자 하는 데이터가 어느 노드 아래에 있는지 확인
             val list: NodeList = xml.getElementsByTagName("item")
             Log.e("lllll", list.length.toString())

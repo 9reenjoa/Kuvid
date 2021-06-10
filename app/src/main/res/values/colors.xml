@@ -12,4 +12,16 @@
     <color name="infobgcolor">#455760</color>
     <color name="strokecolor">#ECE8CA</color>
     <color name="layout2color">#302E2E</color>
+    <color name="woman">#343B63</color>
+    <color name="man">#484A5A</color>
+    <color name="one">#EA554A</color>
+    <color name="two">#CD245D</color>
+    <color name="three">#BD65CC</color>
+    <color name="four">#662ECA</color>
+    <color name="five">#8492DF</color>
+    <color name="six">#3E7AAA</color>
+    <color name="seven">#16ACBF</color>
+    <color name="eight">#009688</color>
+    <color name="nine">#6AA16D</color>
+    <color name="ten">#CDDC39</color>
 </resources>

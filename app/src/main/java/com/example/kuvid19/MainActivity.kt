@@ -33,7 +33,8 @@ public class MainActivity : AppCompatActivity() {
         // 프래그먼트 달기
         val adapter = MainAdapter(supportFragmentManager)
         adapter.addFragment(MainFragment(), "지역")
-        adapter.addFragment(SecondFragment(), "연령-성별")
+        adapter.addFragment(SecondFragment(), "연령")
+        adapter.addFragment(ThirdFragment(), "성별")
         //adapter.addFragment(, "지도")
 
         viewPaper.adapter = adapter

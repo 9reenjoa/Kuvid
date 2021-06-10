@@ -31,8 +31,8 @@ class MainFragment :  Fragment() {
     var now = LocalDate.now()
     val scope = CoroutineScope(Dispatchers.IO)
     val key_area : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
-    var MyDataList = ArrayList<MyData>()
 
+    var MyDataList = ArrayList<MyData>()
     @RequiresApi(Build.VERSION_CODES.O)
     val date = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
@@ -178,6 +178,7 @@ class MainFragment :  Fragment() {
             area_xml.documentElement.normalize()
             println("Root element : " + area_xml.documentElement.nodeName)
 
+            MyDataList.clear()
 
             //찾고자 하는 데이터가 어느 노드 아래에 있는지 확인
             val request : NodeList = area_xml.getElementsByTagName("item")

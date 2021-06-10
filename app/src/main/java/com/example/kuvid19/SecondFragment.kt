@@ -2,6 +2,8 @@ package com.example.kuvid19
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -30,8 +32,7 @@ class SecondFragment :  Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     var now = LocalDate.now()
     val scope = CoroutineScope(Dispatchers.IO)
-    //val age_sex_key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
-    val age_sex_key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
+    val age_key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
     var MyDataList = ArrayList<MyData2>()
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,14 +48,14 @@ class SecondFragment :  Fragment() {
     {
         val rootView = inflater.inflate(R.layout.activity_second_fragment, container, false)
         init()
-        printAgeSexData(rootView as ViewGroup)
+        printAgeData(rootView as ViewGroup)
 
         return rootView
     }
 
     @SuppressLint("WrongConstant")
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    fun printAgeSexData(rootView:ViewGroup) {
+    fun printAgeData(rootView:ViewGroup) {
         do {
 
         } while(MyDataList.size < 11)
@@ -69,13 +70,12 @@ class SecondFragment :  Fragment() {
           */
 
         val endIdx = MyDataList.size // 성별 따로 빼놓을거얌
-        var idx = 0
-
-        val MyDataList_it = MyDataList.iterator()
         val MyData2Table: TableLayout = rootView.findViewById(R.id.MyData2Table)
+        var shader: Shader
+        val shaderColors = arrayOf<String>("#EA554A", "#CD245D", "#BD65CC", "#662ECA", "#8492DF", "#3E7AAA", "#16ACBF", "#009688", "#6AA16D", "#CDDC39")
 
-        while (MyDataList_it.hasNext()) {
-            val data: MyData2 = MyDataList_it.next()
+        for(idx in 0..MyDataList.size-3) {
+            val data: MyData2 = MyDataList.get(idx)
 
             // 동적 행 추가
             val tableRow = TableRow(context)
@@ -84,84 +84,125 @@ class SecondFragment :  Fragment() {
 
             // 열 레이아웃 설정
             val gubun = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) gubun.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else gubun.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
-
+            gubun.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
             gubun.setTextColor(Color.parseColor("#302E2E"))
             gubun.setTextSize(15.0F)
             gubun.setPadding(5)
             gubun.textAlignment = 4
 
             gubun.text = data.gubun
+
+            // 그라데이션 색 설정
+            var paint = gubun.paint
+            var width = paint.measureText(gubun.text.toString())
+            shader = LinearGradient(0f, 0f, width, gubun.textSize, intArrayOf(
+                Color.parseColor(shaderColors.get(idx)),
+                Color.parseColor(shaderColors.get(idx+1))), null, Shader.TileMode.REPEAT)
+            gubun.paint.setShader(shader)
+
             tableRow.addView(gubun)
 
 
             val conf_case = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) conf_case.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else conf_case.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
-
+            conf_case.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
             conf_case.setTextColor(Color.parseColor("#302E2E"))
             conf_case.setTextSize(15.0F)
             conf_case.setPadding(5)
             conf_case.textAlignment = 4
 
             conf_case.text = data.conf_case.toString()
+
+            // 그라데이션 색 설정
+            paint = conf_case.paint
+            width = paint.measureText(conf_case.text.toString())
+            shader = LinearGradient(0f, 0f, width, conf_case.textSize, intArrayOf(
+                Color.parseColor(shaderColors.get(idx)),
+                Color.parseColor(shaderColors.get(idx+1))), null, Shader.TileMode.REPEAT)
+            conf_case.paint.setShader(shader)
+
             tableRow.addView(conf_case)
 
 
             val conf_case_rate = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) conf_case_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else conf_case_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
-
+            conf_case_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
             conf_case_rate.setTextColor(Color.parseColor("#302E2E"))
             conf_case_rate.setTextSize(15.0F)
             conf_case_rate.setPadding(5)
             conf_case_rate.textAlignment = 4
 
             conf_case_rate.text = data.conf_case_rate.toString()
+
+            // 그라데이션 색 설정
+            paint = conf_case_rate.paint
+            width = paint.measureText(conf_case_rate.text.toString())
+            shader = LinearGradient(0f, 0f, width, conf_case_rate.textSize, intArrayOf(
+                Color.parseColor(shaderColors.get(idx)),
+                Color.parseColor(shaderColors.get(idx+1))), null, Shader.TileMode.REPEAT)
+            conf_case_rate.paint.setShader(shader)
+
             tableRow.addView(conf_case_rate)
 
 
             val death = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) death.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else death.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
-
+            death.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
             death.setTextColor(Color.parseColor("#302E2E"))
             death.setTextSize(15.0F)
             death.setPadding(5)
             death.textAlignment = 4
 
             death.text = data.death.toString()
+
+            // 그라데이션 색 설정
+            paint = death.paint
+            width = paint.measureText(death.text.toString())
+            shader = LinearGradient(0f, 0f, width, death.textSize, intArrayOf(
+                Color.parseColor(shaderColors.get(idx)),
+                Color.parseColor(shaderColors.get(idx+1))), null, Shader.TileMode.REPEAT)
+            death.paint.setShader(shader)
+
             tableRow.addView(death)
 
 
             val death_rate = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) death_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else death_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
-
+            death_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
             death_rate.setTextColor(Color.parseColor("#302E2E"))
             death_rate.setTextSize(15.0F)
             death_rate.setPadding(5)
             death_rate.textAlignment = 4
 
             death_rate.text = data.death_rate.toString()
+
+            // 그라데이션 색 설정
+            paint = death_rate.paint
+            width = paint.measureText(death_rate.text.toString())
+            shader = LinearGradient(0f, 0f, width, death_rate.textSize, intArrayOf(
+                Color.parseColor(shaderColors.get(idx)),
+                Color.parseColor(shaderColors.get(idx+1))), null, Shader.TileMode.REPEAT)
+            death_rate.paint.setShader(shader)
+
             tableRow.addView(death_rate)
 
 
             val critical_rate = TextView(context)
-            if(endIdx-2 == idx || endIdx-1 == idx) critical_rate.setBackgroundResource(R.drawable.border_layout_es2) // 성별인 경우
-            else critical_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
-
+            critical_rate.setBackgroundResource(R.drawable.border_layout2) // 연령인 경우
             critical_rate.setTextColor(Color.parseColor("#302E2E"))
             critical_rate.setTextSize(15.0F)
             critical_rate.setPadding(5)
             critical_rate.textAlignment = 4
 
             critical_rate.text = data.critical_rate.toString()
+
+            // 그라데이션 색 설정
+            paint = critical_rate.paint
+            width = paint.measureText(critical_rate.text.toString())
+            shader = LinearGradient(0f, 0f, width, critical_rate.textSize, intArrayOf(
+                Color.parseColor(shaderColors.get(idx)),
+                Color.parseColor(shaderColors.get(idx+1))), null, Shader.TileMode.REPEAT)
+            critical_rate.paint.setShader(shader)
+
             tableRow.addView(critical_rate)
 
             MyData2Table.addView(tableRow)
-            idx++
         }
     }
 
@@ -173,12 +214,13 @@ class SecondFragment :  Fragment() {
                      key + "&pageNo=1&numOfRows=10&STD_DAY=${date}}"
             */
             val url = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=" +
-                    age_sex_key + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}"
+                    age_key + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}"
             val xml: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url)
 
             xml.documentElement.normalize()
             println("Root element : " + xml.documentElement.nodeName)
 
+            MyDataList.clear()
             //찾고자 하는 데이터가 어느 노드 아래에 있는지 확인
             val list: NodeList = xml.getElementsByTagName("item")
             Log.e("lllll", list.length.toString())
