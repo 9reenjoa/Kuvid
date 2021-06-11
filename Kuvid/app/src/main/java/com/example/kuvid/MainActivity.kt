@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     val key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
     var MyDataList = ArrayList<MyData>()
 
-    val date = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 00"))
+    var date = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 00"))
 
     lateinit var url : String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun init() {
-
+        date = "2021년 06월 08일"
         scope.launch {
             URLDecoder.decode(key, "UTF-8")
             url = "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19SidoInfStateJson?serviceKey=" +
