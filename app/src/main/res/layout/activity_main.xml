@@ -123,6 +123,7 @@
             android:id="@+id/viewPaperTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             app:layout_constraintWidth_percent="1"
             app:layout_constraintHeight_percent=".1"
             app:tabIndicatorColor="#3F51B5"
@@ -133,20 +134,33 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/areaTab"
-                android:text="지역"/>
+                android:id="@+id/ageTab"
+                android:text="연령"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/age_sexTab"
-                android:text="연령-성별"/>
+                android:id="@+id/sexTab"
+                android:text="성별"/>
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/mapTab"
-                android:text="지도"/>
+                android:id="@+id/ageChartTab"
+                android:text="연령차트"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sexChartTab"
+                android:text="성별차트"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/weekChartTab"
+                android:text="주간차트"/>
+
            </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

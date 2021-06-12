@@ -71,10 +71,11 @@ class SecondFragment :  Fragment() {
 
         val endIdx = MyDataList.size // 성별 따로 빼놓을거얌
         val MyData2Table: TableLayout = rootView.findViewById(R.id.MyData2Table)
+        var idx = 0
         var shader: Shader
         val shaderColors = arrayOf<String>("#EA554A", "#CD245D", "#BD65CC", "#662ECA", "#8492DF", "#3E7AAA", "#16ACBF", "#009688", "#6AA16D", "#CDDC39")
 
-        for(idx in 0..MyDataList.size-3) {
+        while(idx <= MyDataList.size-3) {
             val data: MyData2 = MyDataList.get(idx)
 
             // 동적 행 추가
@@ -203,6 +204,7 @@ class SecondFragment :  Fragment() {
             tableRow.addView(critical_rate)
 
             MyData2Table.addView(tableRow)
+            idx++
         }
     }
 
