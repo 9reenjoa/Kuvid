@@ -7,14 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,15 +20,12 @@ import org.w3c.dom.Document
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
-import java.net.URLDecoder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.xml.parsers.DocumentBuilderFactory
-import com.github.mikephil.charting.charts.Chart as Chart1
 
 
-class ChartFragment : Fragment() {
-
+class ChartSexFragment : Fragment() {
     var now = LocalDate.now()
     val scope = CoroutineScope(Dispatchers.IO)
     //val age_sex_key : String = "iTpYyrz%2B2quf9rhgNwrICe%2BksA%2B3VK6%2FQ%2FmWVn9UcOUfwTTVzvEnG%2B8MBYTXU2jlsWAOVIuOsrdsROX5t%2Btmrg%3D%3D"
@@ -42,60 +37,70 @@ class ChartFragment : Fragment() {
 
     lateinit var url:String
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_chart, container, false)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        init()
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_chart_sex, container, false)
 //        init()
         setBarChart(rootView as ViewGroup)
 //        printAgeSexData(rootView as ViewGroup)
 
         return rootView
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        init()
-    }
-    fun initBaraDataSet(barDataSet:BarDataSet) {
-        barDataSet.color = Color.parseColor("#304567")
-    }
     fun setBarChart(rootView:ViewGroup) {
         do {
 
-        } while(barDataList.size < 9)
+        } while(barDataList.size < 2)
         val chart:com.github.mikephil.charting.charts.BarChart = rootView.findViewById(R.id.chart)
-        val xAxis:XAxis = chart.xAxis
-        val xlabel = arrayOf("0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80이상")
+        val xAxis: XAxis = chart.xAxis
+        val xlabel = arrayOf(" " ,"여성", "남성")
+        val cololList = ArrayList<Int>()
         xAxis.valueFormatter = IndexAxisValueFormatter(xlabel)
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-//        xAxis.axisMaximum = 101f
-//        xAxis.axisMinimum = 0f
-        xAxis.granularity = 1f
-        xAxis.textSize = 10f
-        xAxis.textColor = Color.RED
+        xAxis.isEnabled = true
+        xAxis.textSize = 12f
+        xAxis.textColor = Color.BLACK
+        xAxis.isGranularityEnabled = true
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
 
-
-
-        chart.setMaxVisibleValueCount(9)
+        val leftXaxis = chart.axisLeft
+        leftXaxis.granularity = 100f
         chart.axisRight.isEnabled = false
-        chart.description.isEnabled = false
+
+        chart.apply{
+            legend.apply {
+                textSize = 15f
+                verticalAlignment = Legend.LegendVerticalAlignment.TOP
+                horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+                orientation = Legend.LegendOrientation.HORIZONTAL
+                setDrawInside(true)
+            }
+            setPinchZoom(false)
+            setDrawBarShadow(false)
+            setDrawGridBackground(false)
+            setDrawBorders(false)
+            setTouchEnabled(false)
+            description.isEnabled = false
+            isDoubleTapToZoomEnabled = false
+        }
+        cololList.add(Color.parseColor("#FFE91E63"))
+        cololList.add(Color.parseColor("#FF2196F3"))
         Log.d("bardata", barDataList.toString())
-        val barDataSet = BarDataSet(barDataList, "연령별 확진자 ")
-//        val labels = arrayOf("검역", "제주", "경남", "경북", "전남", "전북", "충남", "충북", "강원", "경기", "세종", "울산",
-//            "대전","광주", "인천", "대구", "부산", "서울", "합계")
-        barDataSet.color = Color.parseColor("#304567")
-        barDataSet.formSize = 10f
-        barDataSet.setDrawValues(false)
-        barDataSet.valueTextSize = 12f
+        val barDataSet = BarDataSet(barDataList, "성별 확진자 ")
+
+        barDataSet.setColors(cololList)
         val data = BarData(barDataSet)
+        data.barWidth = 0.5f
         chart.data = data
         chart.invalidate()
         chart.animateY(1000)
-
     }
 
     fun init() {
@@ -106,7 +111,7 @@ class ChartFragment : Fragment() {
             */
             val url =
                 "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19GenAgeCaseInfJson?serviceKey=" +
-                        age_sex_key + "&pageNo=1&numOfRows=10&startCreateDt=20200608&endCreateDt=20200608"
+                        age_sex_key + "&pageNo=1&numOfRows=10&startCreateDt=${date}&endCreateDt=${date}"
             val xml: Document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url)
 
             xml.documentElement.normalize()
@@ -141,8 +146,8 @@ class ChartFragment : Fragment() {
                     val data: MyData2 =
                         MyData2(gubun, conf_case, conf_case_rate, death, death_rate, critical_rate)
                     MyDataList.add(data)
-                    if(i < 9) {
-                        barDataList.add(BarEntry(i.toFloat(), conf_case.toFloat()))
+                    if(i > 8) {
+                        barDataList.add(BarEntry(i.toFloat()-8, conf_case.toFloat()))
                     }
                     Log.d("data", data.toString())
 
@@ -150,5 +155,6 @@ class ChartFragment : Fragment() {
             }
         }
     }
+
 
 }

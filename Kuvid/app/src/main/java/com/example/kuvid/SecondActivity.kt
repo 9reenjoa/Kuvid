@@ -2,19 +2,12 @@ package com.example.kuvid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.kuvid.databinding.ActivitySecondBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import org.w3c.dom.Document
-import org.w3c.dom.Element
-import org.w3c.dom.Node
-import org.w3c.dom.NodeList
-import java.net.URLDecoder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import javax.xml.parsers.DocumentBuilderFactory
+
 class SecondActivity : AppCompatActivity() {
     var now = LocalDate.now()
     val scope = CoroutineScope(Dispatchers.IO)
@@ -22,7 +15,9 @@ class SecondActivity : AppCompatActivity() {
     var MyDataList = ArrayList<MyData2>()
 
     val date = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 00"))
-    val chartFragment = ChartFragment()
+    val chartAgeFragment = ChartAgeFragment()
+    val chartSexFragment = ChartSexFragment()
+    val chartWeekFragment = ChartWeekFragment()
     lateinit var binding:ActivitySecondBinding
     lateinit var url:String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +29,7 @@ class SecondActivity : AppCompatActivity() {
     fun init() {
         val fragment = supportFragmentManager.beginTransaction()
         fragment.addToBackStack(null)
-        fragment.replace(R.id.framelayout, chartFragment)
+        fragment.replace(R.id.framelayout, chartAgeFragment)
         fragment.commit()
 
 //        scope.launch {
