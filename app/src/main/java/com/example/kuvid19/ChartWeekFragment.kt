@@ -48,9 +48,14 @@ class ChartWeekFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.chart_week_fragment, container, false)
-        init()
         setLineChart(rootView as ViewGroup)
         return rootView
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        init()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
